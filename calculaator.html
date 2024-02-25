@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Calculator</title>
+  <style>
+    body{
+      text-align: center;
+      margin-top: 10%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 10px black;
+      padding-top: 15px;
+      margin-left: 30%;
+      margin-right: 30%;
+    }
+    .calculator {
+      max-width: 300px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    #display {
+      width: 90%;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 20px;
+      box-shadow: 0 0 10px black;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 5px;
+    }
+
+    button {
+      padding: 15px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .operator {
+      background-color: #031848;
+      color: #ffffff;
+      box-shadow: 0 0 10px black;
+    }
+
+    .number {
+      background-color: #0c2970;
+      color: #ffffff;
+      box-shadow: 0 0 10px black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simple Calculator</h1>
+  <div class="calculator">
+    <input type="text" id="display" disabled>
+    <div class="buttons">
+      <button class="number" id="seven">7</button>
+      <button class="number" id="eight">8</button>
+      <button class="number" id="nine">9</button>
+      <button class="operator" id="clear">C</button>
+      <button class="number" id="four">4</button>
+      <button class="number" id="five">5</button>
+      <button class="number" id="six">6</button>
+      <button class="operator" id="multiply">*</button>
+      <button class="number" id="one">1</button>
+      <button class="number" id="two">2</button>
+      <button class="number" id="three">3</button>
+      <button class="operator" id="divide">/</button>
+      <button class="operator" id="decimal">.</button>
+      <button class="number" id="zero">0</button>
+      <button class="operator" id="subtract">-</button>
+      <button class="operator" id="add">+</button>
+      <button class="operator"id="calculate">=</button>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const display = document.getElementById('display');
+      let currentNumber = '';
+      let firstNumber = null;
+      let operator = null;
+
+      function clear() {
+        display.value = '';
+        currentNumber = '';
+        firstNumber = null;
+        operator = null;
+      }
+
+      function handleOperator(op) {
+        if (currentNumber !== '') {
+          if (firstNumber === null) {
+            firstNumber = parseFloat(currentNumber);
+            operator = op;
+            currentNumber = '';
+          } else {
+            calculate();
+            operator = op;
+          }
+        }
+      }
+
+      function calculate() {
+        const secondNumber = parseFloat(currentNumber);
+        let result;
+        switch (operator) {
+          case '+':
+            result = firstNumber + secondNumber;
+            break;
+          case '-':
+            result = firstNumber - secondNumber;
+            break;
+          case '*':
+            result = firstNumber * secondNumber;
+            break;
+          case '/':
+            result = firstNumber / secondNumber;
+            break;
+          default:
+            return;
+        }
+        display.value = result;
+        firstNumber = result;
+        currentNumber = '';
+        operator = null;
+      }
+
+      function handleNumber(num) {
+        currentNumber += num;
+        display.value = currentNumber;
+      }
+
+      document.getElementById('clear').addEventListener('click', clear);
+
+      document.getElementById('add').addEventListener('click', () => handleOperator('+'));
+      document.getElementById('subtract').addEventListener('click', () => handleOperator('-'));
+      document.getElementById('multiply').addEventListener('click', () => handleOperator('*'));
+      document.getElementById('divide').addEventListener('click', () => handleOperator('/'));
+
+      document.getElementById('calculate').addEventListener('click', calculate);
+
+      document.getElementById('zero').addEventListener('click', () => handleNumber('0'));
+      document.getElementById('one').addEventListener('click', () => handleNumber('1'));
+      document.getElementById('two').addEventListener('click', () => handleNumber('2'));
+      document.getElementById('three').addEventListener('click', () => handleNumber('3'));
+      document.getElementById('four').addEventListener('click', () => handleNumber('4'));
+      document.getElementById('five').addEventListener('click', () => handleNumber('5'));
+      document.getElementById('six').addEventListener('click', () => handleNumber('6'));
+      document.getElementById('seven').addEventListener('click', () => handleNumber('7'));
+      document.getElementById('eight').addEventListener('click', () => handleNumber('8'));
+      document.getElementById('nine').addEventListener('click', () => handleNumber('9'));
+
+      document.getElementById('decimal').addEventListener('click', () => {
+        if (currentNumber.indexOf('.') === -1) {
+          currentNumber += '.';
+          display.value = currentNumber;
+        }
+      });
+    });
+
+  </script>
+</body>
+</html>r̥
